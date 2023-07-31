@@ -1,0 +1,65 @@
+{
+    "name": "Asset",
+    "children": [
+        {
+            "name": "Website",
+            "children": [
+                {
+                    "name": "Cyberattacks"
+                },
+                {
+                    "name": "Data breaches"
+                },
+                {
+                    "name": "Fraud"
+                },
+                {
+                    "name": "Hacking"
+                },
+                {
+                    "name": "Unauthorised access to customer data"
+                },
+                {
+                    "name": "Downtime"
+                }
+            ]
+        },
+        {
+            "name": "Inventory data",
+            "children": [
+                {
+                    "name": "Data breaches"
+                },
+                {
+                    "name": "Cyberattacks"
+                },
+                {
+                    "name": "Unauthorised access to inventory data"
+                },
+                {
+                    "name": "Data loss"
+                }
+            ]
+        },
+        {
+            "name": "Computer systems, network infrastructure",
+            "children": [
+                {
+                    "name": "Cyberattacks"
+                },
+                {
+                    "name": "Data breaches"
+                },
+                {
+                    "name": "Unauthorised access"
+                },
+                {
+                    "name": "Downtime"
+                },
+                {
+                    "name": "Data loss"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,75 @@
+{
+    "name": "Asset",
+    "children": [
+        {
+            "name": "Store and Inventory",
+            "children": [
+                {
+                    "name": "Theft"
+                },
+                {
+                    "name": "Damage"
+                },
+                {
+                    "name": "Fire"
+                },
+                {
+                    "name": "Natural disasters"
+                }
+            ]
+        },
+        {
+            "name": "Customer Data",
+            "children": [
+                {
+                    "name": "Data breach"
+                },
+                {
+                    "name": "Hacking"
+                },
+                {
+                    "name": "Theft"
+                }
+            ]
+        },
+        {
+            "name": "Computers and Network",
+            "children": [
+                {
+                    "name": "Malware"
+                },
+                {
+                    "name": "Hacking"
+                },
+                {
+                    "name": "Unauthorized access"
+                },
+                {
+                    "name": "Physical damage"
+                }
+            ]
+        },
+        {
+            "name": "Employees",
+            "children": [
+                {
+                    "name": "Insider threats"
+                },
+                {
+                    "name": "Accidental data breaches"
+                }
+            ]
+        },
+        {
+            "name": "Supply Chain",
+            "children": [
+                {
+                    "name": "Interruption of supply chain"
+                },
+                {
+                    "name": "Quality issues"
+                }
+            ]
+        }
+    ]
+}

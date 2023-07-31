@@ -1,0 +1,166 @@
+{% extends "base.html.jinja" %}
+{% block styles %}
+.wrap-table-text {
+    word-wrap: break-word;
+    max-width: 160px;
+}
+{% endblock %}
+{% block maincontent %}
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <h2 class="text-center my-5">DREAD Calculator</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" id="tree-diagram"></div>
+</div>
+{% if dread_score_form_data is defined and avg_score_list is not defined %}
+<div class="row justify-content-center">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <form class="shadow p-3 mb-5 bg-body rounded" action="/calculate" method="post">
+            <div class="row">
+                <p class="text-danger text-end fs-5">* required</p>
+            </div>
+            {% for element in dread_score_form_data %}
+            <fieldset class="form-group border p-3 my-3">
+                <legend>{{ element.name }}</legend>
+                <div class="row g-3">
+                    <div class="col-sm-2">
+                        <label for="damage_potential_input_{{ element.index }}" class="form-label">Damage Potential</label>
+                        <input name="damage_potential_{{ element.index }}" type="number" class="form-control" id="damage_potential_input_{{ element.index }}" min="0" max="10" value="{{ element.score }}" required>
+                        <div class="invalid-feedback">Please enter a positive integer between 0 and 10.</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="affected_users_input_{{ element.index }}" class="form-label">Affected Users</label>
+                        <input name="affected_users_{{ element.index }}" type="number" class="form-control" id="affected_users_input_{{ element.index }}" min="0" max="10" value="{{ element.score }}" required>
+                        <div class="invalid-feedback">Please enter a positive integer between 0 and 10.</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="reproducibility_input_{{ element.index }}" class="form-label">Reproducibility</label>
+                        <input name="reproducibility_{{ element.index }}" type="number" class="form-control" id="reproducibility_input_{{ element.index }}" min="0" max="10" value="{{ element.score }}" required>
+                        <div class="invalid-feedback">Please enter a positive integer between 0 and 10.</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="exploitability_input_{{ element.index }}" class="form-label">Exploitability</label>
+                        <input name="exploitability_{{ element.index }}" type="number" class="form-control" id="exploitability_input_{{ element.index }}" min="0" max="10" value="{{ element.score }}" required>
+                        <div class="invalid-feedback">Please enter a positive integer between 0 and 10.</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="discoverability_input_{{ element.index }}" class="form-label">Discoverability</label>
+                        <input name="discoverability_{{ element.index }}" type="number" class="form-control" id="discoverability_input_{{ element.index }}" min="0" max="10" value="{{ element.score }}" required>
+                        <div class="invalid-feedback">Please enter a positive integer between 0 and 10.</div>
+                    </div>
+                </div>
+            </fieldset>
+            {% endfor %}
+            <textarea name="original_dread_score_form_data" hidden>{{ dread_score_form_data | tojson }}</textarea>
+            <textarea name="original_tree_data" hidden>{{ tree_data | tojson }}</textarea>
+            <div class="d-grid gap-2 col-6 mx-auto my-3">
+                <button type="submit" class="btn btn-primary btn-lg">CALCULATE</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+{% endif %}
+{% if avg_score_list %}
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="shadow p-3 mb-5 bg-body rounded">
+            <div class="row g-3">
+                {% for element in avg_score_list %}
+                <div class="col-sm-2">
+                    <p class="fw-bold">{{ element.name }}:</p>
+                    <p>{{ element.avg_score }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    <div class="col-sm-1"></div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <form method="post" action="/upload" enctype=multipart/form-data>
+            <label for="userFileUpload" class="form-label">Upload JSON file of attack tree</label>
+            <input name="user_file_upload_data" class="form-control form-control-lg" id="userFileUpload" type="file" required>
+            <div class="invalid-feedback">Please upload a valid JSON file.</div>
+            <div class="d-grid gap-2 col-6 mx-auto my-3">
+                <button type="submit" class="btn btn-primary btn-lg">UPLOAD</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+    var treeData = {% if tree_data %} {{ tree_data }} {% else %} [] {% endif %}
+
+    // ************** Generate the tree diagram	 *****************
+    var margin = {top: 40, right: 120, bottom: 20, left: 120};
+    var width = window.innerWidth - margin.right - margin.left;
+    var height = window.innerHeight - margin.top - margin.bottom;
+        
+    var i = 0;
+
+    var tree = this.d3.layout.tree()
+        .size([height, width]);
+
+    var diagonal = this.d3.svg.diagonal()
+        .projection(function(d) { return [d.y, d.x]; });
+
+    var svg = (treeData.length) ? this.d3.select("#tree-diagram").append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr('viewBox', "0 0 " + Math.max(width, height) + " " + Math.min(width, height))
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")") : [];
+
+    var root = treeData[0];
+    if (treeData.length) {
+        update(root);
+    }
+
+    function update(source) {
+        // Compute the new tree layout.
+        var nodes = tree.nodes(root).reverse(),
+            links = tree.links(nodes);
+
+        // Normalize for fixed-depth.
+        nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+        // Declare the nodes…
+        var node = svg.selectAll("g.node")
+            .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+        // Enter the nodes.
+        var nodeEnter = node.enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { 
+                return "translate(" + d.y + "," + d.x + ")"; });
+
+        nodeEnter.append("circle")
+            .attr("r", 10);
+
+        nodeEnter.append("text")
+            .attr("y", function(d) { 
+                return d.children || d._children ? -18 : 18; })
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text(function(d) { return d.name; })
+            .style("fill-opacity", 1);
+
+        // Declare the links…
+        var link = svg.selectAll("path.link")
+            .data(links, function(d) { return d.target.id; });
+
+        // Enter the links.
+        link.enter().insert("path", "g")
+            .attr("class", "link")
+            .attr("d", diagonal);
+    }
+{% endblock %}
