@@ -100,9 +100,9 @@ $ pytest
 
 The application offers the following endpoints:
 
-- /: The index page of the application.
-- /calculate: Calculates the average DREAD score based on the form data received.
-- /upload: Handles the uploading of a JSON file, extracts attack tree data and DREAD score data from it.
+- `/``: The index page of the application.
+- `/calculate``: Calculates the average DREAD score based on the form data received.
+- `/upload``: Handles the uploading of a JSON file, extracts attack tree data and DREAD score data from it.
 
 
 ### Home Page
