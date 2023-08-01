@@ -109,7 +109,7 @@ The application offers the following endpoints:
 
 On the home page, you can view the existing data and use the form to input new DREAD scores.
 
-![A demonstration of a user creating a ticket](https://tkachikoti-cloud-object-storage.ams3.digitaloceanspaces.com/images/github/bug-tracking-system/bts_create_page.gif)
+![A demonstration of the app in action](https://tkachikoti-cloud-object-storage.ams3.digitaloceanspaces.com/images/github/attack-tree-threat-modelling/app_demo.gif)
 
 ### Uploading a JSON File
 To upload a JSON file with attack tree data and DREAD scores:
