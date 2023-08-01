@@ -1,6 +1,6 @@
-# Bug Tracking System
+# Attack Tree Threat Modelling
 
-This repository contains the second part of a three part assignment of a Computer Science MSc module at the University of Essex.
+This repository contains an assignment of a Computer Science MSc module at the University of Essex.
 
 ## Table of contents
 
@@ -12,41 +12,60 @@ This repository contains the second part of a three part assignment of a Compute
 
 ## Description
 
-A Bug Tracking System (BTS) is an issue tracking system that is used to manage defects that may arise during the software development life cycle. Using a BTS, software defects are logged and tracked by both the end users and developers of software applications.
-
-This repository contains a minimum viable product of a [Flask](https://github.com/pallets/flask) based BTS.
-- The front end interface was built using [Bootstrap](https://github.com/twbs/bootstrap) and [Jinja](https://github.com/pallets/jinja)
-- The back end validation is implemented using [WTForms](https://github.com/wtforms/flask-wtf) for Flask
+This repository contains a minimum viable product of a [Flask](https://github.com/pallets/flask) based DREAD score calculator.
+- The front end interface was built using [Bootstrap](https://github.com/twbs/bootstrap), [Jinja](https://github.com/pallets/jinja) and [d3](https://github.com/d3/d3)
 - The testing functionality was implemented using [pytest](https://github.com/pytest-dev/pytest)
 
+### Attack tree threat modelling
+Attack tree threat modelling is a method used in computer and information security to describe the security of systems, based on varying attacks. Essentially, it's a tree structure, a graphical representation of attacks that can be used against a system, showing how an asset or target might be attacked.
+
+In an attack tree model:
+
+- The root of the tree is the ultimate goal of the attacker.
+- Each level of the tree explores how the goal could be achieved.
+- Each node in the tree represents a condition that the attacker must conquer to achieve the goal.
+- Child nodes are conditions that lead up to the parent node being conquered.
+- Leaf nodes (those at the end of branches) represent attack vectors, or paths, that the attacker could take.
+
+### DREAD
+
+DREAD is a risk assessment model used to quantify and prioritize the potential risks of identified vulnerabilities in a system. It stands for Damage, Reproducibility, Exploitability, Affected Users, and Discoverability — each representing a category to evaluate the risk of a vulnerability.
+
+Here's a brief description of each category:
+
+Damage: How severe would an attack be?
+Reproducibility: How easy is it to reproduce the attack?
+Exploitability: How easy is it to launch the attack?
+Affected Users: How many users would be impacted if an attack were to occur?
+Discoverability: How easy is it for an attacker to discover the vulnerability?
+For each category, a score from 0 (low risk) to 10 (high risk) is assigned. The combined score provides an overall measure of risk, with a higher score indicating greater risk.
+
+A DREAD score calculator is a tool that helps calculate the DREAD score of a vulnerability. By inputting the ratings for each category, the tool calculates the overall DREAD score, which can help in prioritizing security efforts and resources.
 
 ## Installing and running the app
-
-### Codio IDE (Ubuntu 18.04.3 LTS)
 
 1. Clone the repository:
 
 ```
-$ git clone https://github.com/tkachikoti/bug_tracking_system.git
+$ git clone https://github.com/tkachikoti/attack-tree-threat-modelling
 ```
 
 2. Change directory:
 
 ```
-$ cd bug_tracking_system
+$ cd attack-tree-threat-modelling
 ```
 
 3. Configure the environment and install dependencies:
 
+- Install Python (version 3.9.7 or greater) via: https://www.python.org/
+- Install pip via: https://pip.pypa.io/en/stable/installation/
+- Execute the following commands via terminal:
 ```
-$ sudo apt-get update
-$ sudo apt-get install python3-venv
-$ python3 -m venv venv
-$ source venv/bin/activate
-$ pip install -U flask
-$ pip install -U Flask-WTF
-$ pip install -U pytest
-$ pip install -U numpy
+$ python -m venv env
+$ source env/bin/activate  # on Linux or macOS
+$ source env/Scripts/activate     # on Windows
+$ pip install -r requirements.txt
 ```
 
 4. Run the app:
